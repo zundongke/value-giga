@@ -1,0 +1,63 @@
+# Copy to config/train_local.yaml and replace the dataset and embedding paths.
+# For milestone-aware targets, set milestones_jsonl to a JSONL whose episode_idx
+# agrees with the episode order in data_paths.
+common:
+  num_latent_frames: 7
+  video_height: 384
+  video_width: 320
+
+dataset:
+  data_paths:
+    - /path/to/lerobot_dataset
+  t5_embedding_path: /path/to/task_embedding.pt
+  compute_state_stats: true
+  future_offset: 30
+  max_samples: null
+  milestones_jsonl: null
+  dual_slope_r: 7.0
+  cam_key_high: observation.images.cam_high
+  cam_key_left: observation.images.cam_left_wrist
+  cam_key_right: observation.images.cam_right_wrist
+
+model:
+  wan:
+    config_path: weights/Wan2.2-TI2V-5B
+    checkpoint_path: weights/Wan2.2-TI2V-5B
+    vae_path: weights/Wan2.2-TI2V-5B/Wan2.2_VAE.pth
+    precision: bfloat16
+    num_layers: 30
+
+training:
+  batch_size: 2
+  max_steps: 1000
+  max_epochs: null
+  learning_rate: 4.0e-5
+  wan_learning_rate: 4.0e-5
+  weight_decay: 0.01
+  gradient_accumulation_steps: 1
+  loss_weight_future_state: 0.5
+  loss_weight_value: 1.0
+  scheduler_type: linear
+  warmup_steps: 50
+  cycle_length: 100000
+  f_max: 1.0
+  f_min: 0.1
+  grad_clip_norm: 1.0
+  use_amp: true
+
+system:
+  checkpoint_dir: checkpoints
+  log_level: INFO
+  log_interval: 50
+  save_interval: 1000
+  num_workers: 4
+  pin_memory: true
+
+logging:
+  report_to: tensorboard
+  tensorboard_log_dir: tensorboard
+  run_name: viva-example
+
+resume:
+  checkpoint_path: null
+  reset_step: false

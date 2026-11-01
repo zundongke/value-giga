@@ -1,0 +1,31 @@
+__pycache__/
+*.py[cod]
+.pytest_cache/
+.ruff_cache/
+.mypy_cache/
+.venv/
+venv/
+.env
+.env.*
+
+# Downloaded models and generated training artifacts
+weights/
+checkpoints/
+logs/
+tensorboard/
+viz_output/
+result/
+tmp/
+data/*
+!data/milestones_task_a_0509v2.jsonl
+config/train_local.yaml
+
+# Large model files and generated media anywhere in the tree
+*.pt
+*.pth
+*.ckpt
+*.safetensors
+*.mp4
+*.avi
+*.parquet
+*.npz
